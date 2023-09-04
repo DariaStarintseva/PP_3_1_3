@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 @Table(name="role")
 public class Role implements GrantedAuthority {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -65,8 +64,5 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return getName();
     }
-
-
-
 
 }

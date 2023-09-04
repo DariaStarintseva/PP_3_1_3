@@ -26,11 +26,9 @@ public class User implements UserDetails {
     @NotNull
     private String password;
 
-
     @Column
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<Role> roles;
-
 
     public User() {
     }
@@ -67,8 +65,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -86,7 +82,6 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
