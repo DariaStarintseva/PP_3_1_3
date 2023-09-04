@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "registration";
@@ -49,7 +49,7 @@ public class UserController {
         return "redirect:/login";
     }
     @GetMapping("/admin/registration")
-    public  String registration(Model model) {
+    public  String addNewUserPage(Model model) {
         User user = new User();
         List<Role> roles = roleService.getAllRoles();
         model.addAttribute("roles", roles);
@@ -60,7 +60,7 @@ public class UserController {
 
 
     @PostMapping("/admin/registration")
-    public String performReg(@ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String addNewUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "new";
@@ -71,7 +71,7 @@ public class UserController {
 
 
     @DeleteMapping("/admin/{id}")
-    public String  deleteUser(@PathVariable("id") long id) {
+    public String  delete(@PathVariable("id") long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
