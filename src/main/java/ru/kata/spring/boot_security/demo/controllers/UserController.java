@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,15 +38,11 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/user/{id}")
-    public String show(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.findUserById(id));
+    @GetMapping("/user")
+    public String getUserProfile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("user", userService.loadUserByUsername(username));
         return "user";
     }
-
-
-
-
-
-
 }

@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.util.UserValidator;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
     private final UserValidator userValidator;
     private final UserService userService;
@@ -25,13 +26,13 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping()
     public String userList(Model model) {
         model.addAttribute("admin", userService.allUsers());
         return "admin";
     }
 
-    @GetMapping("/admin/registration")
+    @GetMapping("/registration")
     public  String addNewUserPage(Model model) {
         User user = new User();
         List<Role> roles = roleService.getAllRoles();
@@ -40,7 +41,7 @@ public class AdminController {
         return "new";
     }
 
-    @PostMapping("/admin/registration")
+    @PostMapping("/registration")
     public String addNewUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -50,19 +51,19 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/{id}")
     public String  delete(@PathVariable("id") long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
 
-    @GetMapping("admin/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.findUserById(id));
         return "edit";
     }
 
-    @PatchMapping("admin/{id}")
+    @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
         userService.updateUser(id,user);
         return "redirect:/admin";
